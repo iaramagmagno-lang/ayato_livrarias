@@ -146,7 +146,7 @@ st.markdown(
 )
 
 st.title("🐸 📖 Ayato Livrarias")
-st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Magazine Luiza, Buscapé, Google Play Livros, Amazon BR e Mercado Livre.")
+st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Magazine Luiza e Buscapé.")
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -190,8 +190,8 @@ with st.sidebar:
     st.header("⚙️ Filtros da Pesquisa")
     filtro_condicao = st.multiselect(
         "Condição do Livro:",
-        options=["Novo", "Usado", "Digital"],
-        default=["Novo", "Usado", "Digital"]
+        options=["Novo", "Usado"],
+        default=["Novo", "Usado"]
     )
 
     lojas_disponiveis = list(CORES_LOJAS.keys())
@@ -258,7 +258,7 @@ if st.session_state["resultados"] is None:
             <h2 style="color: #0369A1; margin-bottom: 8px;">Economize nas melhores livrarias do Brasil 📚</h2>
             <p style="color: #334155; font-size: 1.05rem; margin-bottom: 18px;">
                 Rastreamos simultaneamente na <strong>Estante Virtual</strong>, <strong>Martins Fontes</strong>, 
-                <strong>Magazine Luiza</strong>, <strong>Buscapé</strong>, <strong>Amazon BR</strong> e <strong>Google Play Livros</strong> em segundos.
+                <strong>Magazine Luiza</strong> e <strong>Buscapé</strong> em segundos.
             </p>
         </div>
         """,
@@ -319,18 +319,14 @@ if st.session_state["resultados"] is not None:
         # Simulação de frete
         with st.expander("🚚 Calculadora e Informações sobre Frete", expanded=False):
             st.info(
-                "💡 **Aviso:** Os preços exibidos são os valores de vitrine do produto. "
-                "Produtos digitais (Google Play Livros) possuem **frete R$ 0,00**. "
-                "Para livros físicos (Mercado Livre, Estante Virtual, Travessa), o frete varia com o seu CEP."
+                "💡 **Aviso:** Os preços exibidos são os valores de vitrine do produto nas lojas. "
+                "O frete para livros físicos varia conforme o seu CEP e a modalidade de envio de cada loja."
             )
-            simular_frete = st.checkbox("Simular frete fixo estimado para livros físicos", value=False)
+            simular_frete = st.checkbox("Simular frete fixo estimado para os livros", value=False)
             frete_valor = 0.0
             if simular_frete:
                 frete_valor = st.number_input("Valor estimado do frete (R$):", min_value=0.0, value=15.00, step=1.0)
-                df["Preço c/ Frete (R$)"] = df.apply(
-                    lambda r: r["Preço (R$)"] if r["Condição"] == "Digital" else r["Preço (R$)"] + frete_valor,
-                    axis=1
-                ).round(2)
+                df["Preço c/ Frete (R$)"] = df["Preço (R$)"].apply(lambda p: round(p + frete_valor, 2))
 
         # Aplicar filtros da barra lateral (Condição e Loja)
         df_filtrado = df[

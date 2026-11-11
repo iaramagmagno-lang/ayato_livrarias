@@ -7,16 +7,12 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 DB_PATH = os.path.join(DATA_DIR, "precos_livros.db")
 
-# Paleta oficial de cores para badges de lojas
+# Paleta oficial de cores para badges de lojas ativas
 CORES_LOJAS = {
-    "Mercado Livre": {"bg": "#FEF08A", "text": "#854D0E", "border": "#FACC15"},
-    "Amazon BR": {"bg": "#FFEDD5", "text": "#9A3412", "border": "#FB923C"},
     "Magazine Luiza": {"bg": "#E0F2FE", "text": "#0284C7", "border": "#38BDF8"},
     "Estante Virtual": {"bg": "#DBEAFE", "text": "#1E40AF", "border": "#93C5FD"},
     "Martins Fontes": {"bg": "#F3E8FF", "text": "#6B21A8", "border": "#D8B4FE"},
-    "Buscapé": {"bg": "#FEF9C3", "text": "#A16207", "border": "#FDE047"},
-    "Google Play Livros": {"bg": "#CCFBF1", "text": "#0F766E", "border": "#5EEAD4"},
-    "Livraria da Travessa": {"bg": "#FEE2E2", "text": "#991B1B", "border": "#FCA5A5"}
+    "Buscapé": {"bg": "#FEF9C3", "text": "#A16207", "border": "#FDE047"}
 }
 
 # Stop words e termos irrelevantes para o filtro de relevância

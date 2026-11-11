@@ -51,10 +51,10 @@ def test_eh_relevante_bloqueia_acessorios():
 def test_gerar_csv_profissional():
     df = pd.DataFrame([{
         "Título": "Clean Code",
-        "Loja": "Mercado Livre",
+        "Loja": "Martins Fontes",
         "Condição": "Novo",
         "Preço (R$)": 49.90,
-        "Link": "https://mercadolivre.com.br/item"
+        "Link": "https://martinsfontespaulista.com.br/item"
     }])
 
     csv_bytes = gerar_csv_profissional(df, "Clean Code", padrao="brasil")
@@ -73,10 +73,10 @@ def test_gerar_csv_profissional():
 def test_gerar_excel_profissional():
     df = pd.DataFrame([{
         "Título": "Clean Code",
-        "Loja": "Google Play Livros",
-        "Condição": "Digital",
+        "Loja": "Magazine Luiza",
+        "Condição": "Novo",
         "Preço (R$)": 39.90,
-        "Link": "https://play.google.com/store/books"
+        "Link": "https://buscape.com.br"
     }])
 
     excel_bytes = gerar_excel_profissional(df, "Clean Code")
@@ -90,10 +90,10 @@ def test_database_operacoes(tmp_path):
 
     df = pd.DataFrame([{
         "Título": "Duna",
-        "Loja": "Amazon BR",
+        "Loja": "Estante Virtual",
         "Condição": "Novo",
         "Preço (R$)": 59.90,
-        "Link": "https://amazon.com.br/duna"
+        "Link": "https://estantevirtual.com.br/duna"
     }])
 
     salvar_resultados("duna", df, db_path=test_db)
