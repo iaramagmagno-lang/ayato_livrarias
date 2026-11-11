@@ -9,7 +9,7 @@ def coletar_martins_fontes(termo: str, isbn: str = None) -> list[dict]:
     Rápida, oficial, estável e 100% livre de bloqueios em qualquer servidor na nuvem.
     """
     livros = []
-    termo_busca = isbn if (isbn and len(isbn) >= 10) else simplificar_termo_busca(termo)
+    termo_busca = simplificar_termo_busca(termo)
     # VTEX requer espaço codificado como %20 (urllib.parse.quote) para não disparar WAF
     termo_enc = urllib.parse.quote(termo_busca)
     url = f"https://www.martinsfontespaulista.com.br/api/catalog_system/pub/products/search?ft={termo_enc}"

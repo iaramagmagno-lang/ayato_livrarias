@@ -7,11 +7,12 @@ from src.core.utils import simplificar_termo_busca
 
 def coletar_estante_virtual(termo: str, isbn: str = None) -> list[dict]:
     """
-    Coleta na Estante Virtual com suporte a múltiplos livros e seletores atualizados.
-    Retorna tanto livros novos quanto usados com preços reais.
+    Coleta na Estante Virtual com suporte a múltiplos livros e links resilientes.
+    Suporta tanto botões Vue quanto tags <a> tradicionais.
     """
     livros = []
-    termo_busca = isbn if (isbn and len(isbn) >= 10) else simplificar_termo_busca(termo)
+    # Prioriza o termo do livro para não restringir a uma única edição/código de barras
+    termo_busca = simplificar_termo_busca(termo)
     termo_enc = urllib.parse.quote_plus(termo_busca)
     url = f"https://www.estantevirtual.com.br/busca?q={termo_enc}"
 
@@ -37,19 +38,27 @@ def coletar_estante_virtual(termo: str, isbn: str = None) -> list[dict]:
                 preco_el = card.select_one(".product-item__sale-price, [data-auto='price']") or card.find(
                     lambda e: e.name in ["span", "p", "div"] and "R$" in e.text
                 )
-                link_el = card.select_one("a.product-item__button--goTo, a.product-item__link, a[href*='/livro/']")
 
-                if titulo_el and preco_el and link_el:
+                if titulo_el and preco_el:
                     titulo = titulo_el.get_text(strip=True)
                     match = re.search(r"(\d+(?:[.,]\d+)?)", preco_el.get_text(strip=True).replace(".", ""))
                     if match:
                         try:
                             preco = float(match.group(1).replace(",", "."))
-                            href = link_el.get("href", "")
-                            link_final = (
-                                f"https://www.estantevirtual.com.br{href}"
-                                if href.startswith("/") else href
-                            )
+                            
+                            # Extração de link resiliente
+                            link_el = card.select_one("a[href]")
+                            href = link_el.get("href", "") if link_el else ""
+                            if href and href != "#" and href != "/":
+                                link_final = (
+                                    f"https://www.estantevirtual.com.br{href}"
+                                    if href.startswith("/") else href
+                                )
+                            elif card.get("data-code"):
+                                slug = re.sub(r"[^\w\s-]", "", titulo.lower()).strip().replace(" ", "-")
+                                link_final = f"https://www.estantevirtual.com.br/livro/{slug}-{card['data-code']}-BK"
+                            else:
+                                link_final = f"https://www.estantevirtual.com.br/busca?q={urllib.parse.quote_plus(titulo)}"
 
                             condicao = "Usado"
                             variacoes = card.select_one(".product-item__variations")

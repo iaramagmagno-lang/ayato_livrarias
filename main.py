@@ -149,15 +149,16 @@ st.title("🐸 📖 Ayato Livrarias")
 st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Google Play Livros, Mercado Livre, Amazon BR e Livraria da Travessa.")
 
 
-@st.cache_data(ttl=600, show_spinner=False)
+@st.cache_data(ttl=300, show_spinner=False)
 def buscar_ofertas_com_cache(termo: str) -> tuple[dict | None, list[dict], dict[str, int]]:
     """
-    Executa busca em paralelo com cache de 10 minutos (TTL=600s).
+    Executa busca em paralelo com cache de 5 minutos (TTL=300s).
     Evita bloqueios de taxa (rate-limits) e acelera consultas repetidas.
     """
     info = buscar_metadados_google_books(termo)
-    isbn = info.get("isbn") if info else None
-    resultados, status = coletar_todas_as_lojas_paralelo(termo, isbn=isbn)
+    # Busca ampla por título em todas as lojas para garantir dezenas de ofertas
+    # (evita limitar a busca ao código de barras/ISBN de uma única tiragem específica)
+    resultados, status = coletar_todas_as_lojas_paralelo(termo)
     return info, resultados, status
 
 
@@ -269,7 +270,7 @@ if st.session_state["resultados"] is None:
     cols_sug = st.columns(len(sugestoes))
     for i, sug in enumerate(sugestoes):
         if cols_sug[i].button(f"📖 {sug}", use_container_width=True):
-            executar_pesquisa(sug)
+            executar_pesquisa(sug, forcar_atualizacao=forcar_cache)
             st.rerun()
 
 # --- EXIBIÇÃO COMPLETA DOS RESULTADOS ---
