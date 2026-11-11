@@ -63,3 +63,4 @@ def coletar_buscape(termo: str, isbn: str = None) -> list[dict]:
         print(f"[Buscapé] Erro: {e}")
 
     return livros
+
