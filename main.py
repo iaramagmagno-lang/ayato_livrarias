@@ -488,7 +488,10 @@ if st.session_state["resultados"] is not None:
                             use_container_width=True
                         )
 
-                    st.caption(f"🗓️ **Data do Relatório:** {agora_dt.strftime('%d/%m/%Y às %H:%M:%S')} | Formatos com data legível e codificação UTF-8 com BOM.")
+                    st.caption(
+                        f"🗓️ **Data do Relatório:** {agora_dt.strftime('%d/%m/%Y às %H:%M:%S')} | "
+                        "💡 **Dica Excel:** No arquivo CSV, se a data ou valores aparecerem como `######`, basta dar um duplo clique na divisória da coluna para expandi-la, ou utilize a **Planilha Formatada (.xlsx)** que já vem com as colunas autoajustadas."
+                    )
 
             # ABA 2: COMPARATIVO LADO A LADO POR LOJA
             with tab_lojas:
