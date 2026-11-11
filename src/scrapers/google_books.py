@@ -1,4 +1,16 @@
+import os
 import requests
+
+def _obter_api_key() -> str | None:
+    """Tenta obter a chave de API do Google Books de secrets ou variáveis de ambiente."""
+    key = os.getenv("GOOGLE_BOOKS_API_KEY")
+    if not key:
+        try:
+            import streamlit as st
+            key = st.secrets.get("GOOGLE_BOOKS_API_KEY")
+        except Exception:
+            pass
+    return key
 
 
 def buscar_metadados_google_books(termo: str) -> dict | None:
@@ -12,6 +24,9 @@ def buscar_metadados_google_books(termo: str) -> dict | None:
         "printType": "books",
         "langRestrict": "pt"
     }
+    key = _obter_api_key()
+    if key:
+        params["key"] = key
 
     try:
         resp = requests.get(url, params=params, timeout=8)
@@ -45,6 +60,8 @@ def buscar_metadados_google_books(termo: str) -> dict | None:
                     "preco_google": preco_google,
                     "link_google": sale_info.get("buyLink", volume.get("infoLink", ""))
                 }
+        elif resp.status_code == 429:
+            print("[Google Books Metadados] Cota diária anônima excedida (429).")
     except Exception as e:
         print(f"[Google Books Metadados] Erro: {e}")
 
@@ -60,9 +77,12 @@ def coletar_google_books(termo: str) -> list[dict]:
     url = "https://www.googleapis.com/books/v1/volumes"
     params = {
         "q": termo,
-        "maxResults": 10,
-        "country": "BR"
+        "maxResults": 10
     }
+    key = _obter_api_key()
+    if key:
+        params["key"] = key
+
     try:
         resp = requests.get(url, params=params, timeout=8)
         if resp.status_code == 200:
@@ -86,7 +106,8 @@ def coletar_google_books(termo: str) -> list[dict]:
                         "Condição": "Digital",
                         "Link": link
                     })
+        elif resp.status_code == 429:
+            print("[Google Play Livros] Cota anônima excedida (429).")
     except Exception as e:
         print(f"[Google Play Livros] Erro: {e}")
     return livros
-

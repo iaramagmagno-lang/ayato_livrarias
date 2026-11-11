@@ -6,6 +6,7 @@ from src.scrapers import (
     coletar_mercado_livre,
     coletar_mercado_livre_api,
     coletar_estante_virtual,
+    coletar_martins_fontes,
     coletar_amazon_http,
     coletar_amazon_stealth,
     coletar_travessa,

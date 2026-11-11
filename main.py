@@ -146,7 +146,7 @@ st.markdown(
 )
 
 st.title("🐸 📖 Ayato Livrarias")
-st.caption("Comparador inteligente em tempo real: Google Play Livros, Mercado Livre, Estante Virtual, Amazon BR e Livraria da Travessa.")
+st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Google Play Livros, Mercado Livre, Amazon BR e Livraria da Travessa.")
 
 
 @st.cache_data(ttl=600, show_spinner=False)
@@ -193,9 +193,7 @@ with st.sidebar:
         default=["Novo", "Usado", "Digital"]
     )
 
-    lojas_disponiveis = [
-        "Google Play Livros", "Mercado Livre", "Estante Virtual", "Amazon BR", "Livraria da Travessa"
-    ]
+    lojas_disponiveis = list(CORES_LOJAS.keys())
     filtro_lojas = st.multiselect(
         "Lojas Selecionadas:",
         options=lojas_disponiveis,
@@ -258,8 +256,8 @@ if st.session_state["resultados"] is None:
         <div class="hero-banner">
             <h2 style="color: #0369A1; margin-bottom: 8px;">Economize nas melhores livrarias do Brasil 📚</h2>
             <p style="color: #334155; font-size: 1.05rem; margin-bottom: 18px;">
-                Rastreamos simultaneamente na <strong>Google Play Livros</strong>, <strong>Mercado Livre</strong>, 
-                <strong>Estante Virtual</strong>, <strong>Amazon BR</strong> e <strong>Livraria da Travessa</strong> em segundos.
+                Rastreamos simultaneamente na <strong>Estante Virtual</strong>, <strong>Martins Fontes</strong>, 
+                <strong>Google Play Livros</strong>, <strong>Amazon BR</strong> e <strong>Mercado Livre</strong> em segundos.
             </p>
         </div>
         """,

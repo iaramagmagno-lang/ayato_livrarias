@@ -104,3 +104,16 @@ def test_database_operacoes(tmp_path):
     assert len(historico) == 1
     assert historico.iloc[0]["Título"] == "Duna"
     assert historico.iloc[0]["Preço (R$)"] == 59.90
+
+
+def test_martins_fontes_estrutura():
+    from src.scrapers.martins_fontes import coletar_martins_fontes
+    # Teste de integração real com termo conhecido
+    livros = coletar_martins_fontes("1984")
+    assert isinstance(livros, list)
+    if livros:
+        assert "Título" in livros[0]
+        assert "Preço (R$)" in livros[0]
+        assert livros[0]["Loja"] == "Martins Fontes"
+        assert livros[0]["Condição"] == "Novo"
+
