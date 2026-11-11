@@ -2,6 +2,7 @@ from src.scrapers.google_books import buscar_metadados_google_books, coletar_goo
 from src.scrapers.mercadolivre import coletar_mercado_livre, coletar_mercado_livre_api
 from src.scrapers.estante_virtual import coletar_estante_virtual
 from src.scrapers.martins_fontes import coletar_martins_fontes
+from src.scrapers.buscape import coletar_buscape
 from src.scrapers.amazon import coletar_amazon_http, coletar_amazon_stealth
 from src.scrapers.travessa import coletar_travessa
 from src.scrapers.orchestrator import coletar_todas_as_lojas_paralelo

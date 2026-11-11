@@ -146,7 +146,7 @@ st.markdown(
 )
 
 st.title("🐸 📖 Ayato Livrarias")
-st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Google Play Livros, Mercado Livre, Amazon BR e Livraria da Travessa.")
+st.caption("Comparador inteligente em tempo real: Estante Virtual, Martins Fontes, Magazine Luiza, Buscapé, Google Play Livros, Amazon BR e Mercado Livre.")
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -258,7 +258,7 @@ if st.session_state["resultados"] is None:
             <h2 style="color: #0369A1; margin-bottom: 8px;">Economize nas melhores livrarias do Brasil 📚</h2>
             <p style="color: #334155; font-size: 1.05rem; margin-bottom: 18px;">
                 Rastreamos simultaneamente na <strong>Estante Virtual</strong>, <strong>Martins Fontes</strong>, 
-                <strong>Google Play Livros</strong>, <strong>Amazon BR</strong> e <strong>Mercado Livre</strong> em segundos.
+                <strong>Magazine Luiza</strong>, <strong>Buscapé</strong>, <strong>Amazon BR</strong> e <strong>Google Play Livros</strong> em segundos.
             </p>
         </div>
         """,

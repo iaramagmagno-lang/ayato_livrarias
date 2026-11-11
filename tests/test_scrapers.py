@@ -117,3 +117,14 @@ def test_martins_fontes_estrutura():
         assert livros[0]["Loja"] == "Martins Fontes"
         assert livros[0]["Condição"] == "Novo"
 
+
+def test_buscape_estrutura():
+    from src.scrapers.buscape import coletar_buscape
+    livros = coletar_buscape("1984")
+    assert isinstance(livros, list)
+    if livros:
+        assert "Título" in livros[0]
+        assert "Preço (R$)" in livros[0]
+        assert "Link" in livros[0]
+
+
